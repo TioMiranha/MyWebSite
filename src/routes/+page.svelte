@@ -5,7 +5,7 @@
 	import Container from '../components/Container/Container.svelte';
 </script>
 
-<main>
+<main class="min-h-screen">
 	<DesktopNav />
 	<MobileNav />
 	<Container>

@@ -1,60 +1,128 @@
 <script lang="ts">
-    let menuAberto = $state(false);
+	import Container from '../Container/Container.svelte';
+	import { navItems } from '$lib/data/atlas';
+
+	let menuAberto = $state(false);
+
 	function alternarMenu() {
 		menuAberto = !menuAberto;
 	}
 
-
 	function fecharMenu() {
 		menuAberto = false;
 	}
-    
+
+	function irParaSecao(sectionId: string) {
+		document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		fecharMenu();
+	}
 </script>
 
-<div class="-mr-2 flex lg:hidden">
-	<button
-		id="menuButton"
-		class="m-2 inline-flex cursor-pointer items-center justify-center rounded-lg bg-[#1b263b] p-2 text-white transition duration-300 ease-in-out hover:bg-[#2b4c7e]"
-		aria-label="Menu"
-		aria-expanded="false"
-		onclick={alternarMenu}
-	>
-		<i class="bi bi-list"></i>
-	</button>
+<div class="border-b border-[var(--border)] bg-white/90 backdrop-blur lg:hidden">
+	<Container>
+		<div class="flex h-18 items-center justify-between py-2">
+			<a href="#dashboard" class="flex items-center gap-3">
+				<span
+					class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--nav)] text-sm font-bold tracking-[0.2em] text-white"
+				>
+					AT
+				</span>
+				<span>
+					<span class="block text-sm font-semibold tracking-[0.18em] text-[var(--text)]">ATLAS</span
+					>
+					<span class="block text-xs text-[var(--subtle)]">Painel operacional</span>
+				</span>
+			</a>
+
+			<button
+				id="menuButton"
+				type="button"
+				class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[var(--border)] bg-white text-[var(--nav)] shadow-sm transition hover:border-[var(--accent)]/40 hover:text-[var(--accent-strong)]"
+				aria-label="Abrir menu"
+				aria-controls="mobile-menu"
+				aria-expanded={menuAberto}
+				onclick={alternarMenu}
+			>
+				<i class={`bi ${menuAberto ? 'bi-x-lg' : 'bi-list'} text-lg`}></i>
+			</button>
+		</div>
+	</Container>
 </div>
 
 {#if menuAberto}
-<button class="fixed inset-0 left-0 bg-black/40" onclick={fecharMenu} aria-label="backdrop"></button>
-<div id="menu" class=" lg:hidden">
-	<div class="fixed top-0 bottom-0 w-75 overflow-y-auto bg-[#1b263b] p-2 text-center lg:left-0">
-		<div class="text-xl text-[#dce0e6]">
-			<div class="nt-1 flex items-center p-2">
-				<i class="bi bi-app-indicator m-2 rounded-lg bg-[#567ebb] px-2"></i>
-				<h1 class="ml-2">Atlas</h1>
-				<button class="ml-30 cursor-pointer rounded-lg px-2 transition duration-300 ease-in-out hover:bg-[#2b4c7e] lg:hidden" aria-label="Fechar menu" aria-expanded="false" onclick={fecharMenu}>
-					<i
-							class="bi bi-x"
-						></i>
-					</button>
+	<button
+		type="button"
+		class="fixed inset-0 z-40 bg-slate-950/35 lg:hidden"
+		onclick={fecharMenu}
+		aria-label="Fechar menu"
+	></button>
+
+	<aside
+		id="mobile-menu"
+		class="fixed inset-y-0 left-0 z-50 flex w-80 flex-col border-r border-white/10 bg-[var(--nav)] px-5 py-6 text-[var(--text-on-dark)] shadow-2xl lg:hidden"
+	>
+		<div class="flex items-center justify-between">
+			<div class="flex items-center gap-3">
+				<span
+					class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--accent)] text-sm font-bold tracking-[0.2em] text-white"
+				>
+					AT
+				</span>
+				<div>
+					<p class="text-sm font-semibold tracking-[0.2em] text-white">ATLAS</p>
+					<p class="text-xs text-white/60">Sistema corporativo</p>
 				</div>
-				<hr class="my-2 text-[#dce0e6]" />
 			</div>
-			<div
-				class="mt-3 flex cursor-pointer items-center rounded-lg bg-[#1f2b43] p-2.5 px-4 text-[#dce0e6] duration-300"
+
+			<button
+				type="button"
+				class="inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 text-white/70 transition hover:bg-white/8 hover:text-white"
+				onclick={fecharMenu}
+				aria-label="Fechar menu"
 			>
-				<i class="bi bi-search"></i>
+				<i class="bi bi-x-lg"></i>
+			</button>
+		</div>
+
+		<div class="mt-6 rounded-3xl border border-white/10 bg-white/5 p-4">
+			<label
+				for="mobile-search"
+				class="mb-2 block text-xs font-semibold tracking-[0.18em] text-white/45 uppercase"
+			>
+				Pesquisa rapida
+			</label>
+			<div class="flex items-center gap-3 rounded-2xl bg-[var(--nav-secondary)] px-4 py-3">
+				<i class="bi bi-search text-white/55"></i>
 				<input
-				type="text"
-				placeholder="Pesquisar"
-				class="focus-outline-none ml-4 w-full rounded-lg bg-transparent text-[#dce0e6]"
+					id="mobile-search"
+					type="text"
+					placeholder="Buscar modulo"
+					class="w-full border-0 bg-transparent p-0 text-sm text-white placeholder:text-white/40 focus:outline-none"
 				/>
 			</div>
-			<div
-				class="mt-2 flex cursor-pointer items-center rounded-lg p-2.5 px-4 text-[#dce0e6] duration-300 hover:bg-[#2b4c7e]"
-			>
-				<i class="bi bi-house-door"></i>
-				<span class="ml-5 text-[15px] text-[#dce0e6]">Vasco</span>
-			</div>
 		</div>
-	</div>
+
+		<nav class="mt-6 flex-1 space-y-2">
+			{#each navItems as item, index (item.section)}
+				<button
+					type="button"
+					class={`flex items-center justify-between rounded-2xl px-4 py-3 text-sm transition ${
+						index === 0
+							? 'bg-[var(--accent)] font-semibold text-white'
+							: 'text-white/72 hover:bg-white/8 hover:text-white'
+					}`}
+					onclick={() => irParaSecao(item.section)}
+				>
+					<span>{item.label}</span>
+					<i class={`bi ${index === 0 ? 'bi-arrow-right-short' : 'bi-dot'} text-base`}></i>
+				</button>
+			{/each}
+		</nav>
+
+		<div class="rounded-3xl border border-white/10 bg-white/6 p-4">
+			<p class="text-xs font-semibold tracking-[0.18em] text-white/45 uppercase">Resumo rapido</p>
+			<p class="mt-3 text-3xl font-semibold text-white">82%</p>
+			<p class="mt-2 text-sm text-white/65">Eficiência geral mantida acima da meta da semana.</p>
+		</div>
+	</aside>
 {/if}

@@ -1,3 +1,35 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+:root {
+	--page: #f5f7fa;
+	--surface: #ffffff;
+	--border: #d9e1ea;
+	--nav: #162033;
+	--nav-secondary: #1f2b43;
+	--accent: #567ebb;
+	--accent-strong: #2b4c7e;
+	--muted: #606d80;
+	--text-on-dark: #dce0e6;
+	--text: #1f2937;
+	--subtle: #6b7280;
+}
+
+html {
+	scroll-behavior: smooth;
+	background: var(--page);
+}
+
+body {
+	min-height: 100vh;
+	background:
+		radial-gradient(circle at top left, rgba(86, 126, 187, 0.15), transparent 28%),
+		linear-gradient(180deg, #f8fbff 0%, var(--page) 55%, #eef2f7 100%);
+	color: var(--text);
+	font-family: 'Manrope', 'Segoe UI', sans-serif;
+}
+
+::selection {
+	background: rgba(86, 126, 187, 0.22);
+}
